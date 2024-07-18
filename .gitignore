@@ -1,0 +1,10 @@
+.vscode
+venv
+01_Provisión_Comisiones_Generales/.vscode
+01_Provisión_Comisiones_Generales/01. Input
+01_Provisión_Comisiones_Generales/02. Output
+01_Provisión_Comisiones_Generales/scripts/__pycache__
+02_Provisión_Comisiones_Vida/.vscode
+02_Provisión_Comisiones_Vida/01. Input
+02_Provisión_Comisiones_Vida/02. Output
+02_Provisión_Comisiones_Vida/scripts/__pycache__
