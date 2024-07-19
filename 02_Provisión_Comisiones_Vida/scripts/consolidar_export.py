@@ -19,8 +19,8 @@ def consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_
     vida['ABS'] = abs(vida['PTCOMISION'])
 
     # Contar la cantidad de cada póliza/recibo
-    vida_cantidad = vida.groupby(['NMPOLIZA', 'CDPROVISION'])['PTCOMISION'].count().reset_index(name='CANTIDAD')
-    vida = vida.merge(vida_cantidad, on=['NMPOLIZA', 'CDPROVISION'], how='left')
+    vida_cantidad = vida.groupby(['NMPOLIZA', 'NMRECIBO'])['PTCOMISION'].count().reset_index(name='CANTIDAD')
+    vida = vida.merge(vida_cantidad, on=['NMPOLIZA', 'NMRECIBO'], how='left')
 
     # Asignarle un tipo a cada registro que no vaya a ser ajustado
     vida['TIPO'] = np.select(
