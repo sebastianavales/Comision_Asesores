@@ -201,7 +201,7 @@ def transformaciones_iniciales(generales,ajuste_pago,pago):
 
     # Quitar letras y caracteres especiales de NMRECIBO y convertir a número
     generales['NMRECIBO'] = generales['NMRECIBO'].apply(lambda x: re.sub(r'[^0-9]', '', x))
-    generales['NMRECIBO'] = pd.to_numeric(generales['NMRECIBO'], errors='coerce')
+    #generales['NMRECIBO'] = pd.to_numeric(generales['NMRECIBO'], errors='coerce')
 
     # Agregar tipo M a CDCOASEGURO
     generales['CDCOASEGURO'] = np.select(

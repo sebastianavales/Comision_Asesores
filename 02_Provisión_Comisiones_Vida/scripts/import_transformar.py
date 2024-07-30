@@ -201,7 +201,7 @@ def transformaciones_iniciales(vida,ajuste_pago,pago):
 
     # Quitar letras y caracteres especiales de NMRECIBO y convertir a número
     vida['NMRECIBO'] = vida['NMRECIBO'].apply(lambda x: re.sub(r'[^0-9]', '', x))
-    vida['NMRECIBO'] = pd.to_numeric(vida['NMRECIBO'], errors='coerce')
+    #vida['NMRECIBO'] = pd.to_numeric(vida['NMRECIBO'], errors='coerce')
 
     # Agregar tipo M a CDCOASEGURO
     vida['CDCOASEGURO'] = np.select(

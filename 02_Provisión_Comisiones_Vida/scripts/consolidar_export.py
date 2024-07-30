@@ -133,5 +133,3 @@ def consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_
         fraccion_df.to_csv(f'02. Output/Comisiones_Vida_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
 
     print("Archivo base exportado con transformaciones en la carpeta 02. Output.")
-
-    return vida, vida_ajustados6

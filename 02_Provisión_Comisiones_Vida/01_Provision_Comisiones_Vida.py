@@ -138,7 +138,7 @@ try:
     vida = pd.concat([vida_revision5, vida_ajustados1, vida_ajustados2, vida_ajustados3, vida_ajustados4, vida_ajustados5])
 
     # Función para consolidar tablas y exportar
-    vida, vida_ajustados6 = fconsexport.consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_porc_pendientes,codigos_directos,retirados,asesores_formacion,mes_cierre,año_cierre)
+    fconsexport.consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_porc_pendientes,codigos_directos,retirados,asesores_formacion,mes_cierre,año_cierre)
 
 except Exception as e:
     print("Ocurrió un error. Revisar el archivo Errores.txt")

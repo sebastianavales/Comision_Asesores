@@ -9,7 +9,7 @@ def plantillas_ajustes(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierre):
                                                (vida_ajustes['AJUSTAR?'] == "Ajustado Póliza/Recibo") |
                                                (vida_ajustes['AJUSTAR?'] == "Ajustado Póliza/Agente") |
                                                (vida_ajustes['AJUSTAR?'] == "Ajustado Recibo Duplicado") |
-                                               (vida_ajustes['AJUSTAR?'] == "Ajustado código agrupación")]
+                                               (vida_ajustes['AJUSTAR?'] == "Ajustado código agrupación")].fillna("")
     
     # Identificar la fuente del registro
     vida_plantilla_ajustes1['FUENTE'] = np.select(
@@ -32,13 +32,13 @@ def plantillas_ajustes(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierre):
     )
                                                          
     # Ajustes por Póliza
-    vida_plantilla_ajustes1_1 = vida_plantilla_ajustes1.loc[(vida_plantilla_ajustes1['AJUSTAR?'] == "Ajustado Póliza")].groupby(['NMPOLIZA','CDRAMO','CDAGENTE','FUENTE'])['PTCOMISION'].sum().reset_index()
-    vida_plantilla_ajustes1_1['NMRECIBO'] = "99999999"
+    vida_plantilla_ajustes1_1 = vida_plantilla_ajustes1.loc[(vida_plantilla_ajustes1['AJUSTAR?'] == "Ajustado Póliza")].groupby(['NMPOLIZA','CDRAMO','FUENTE'])['PTCOMISION'].sum().reset_index()
+    vida_plantilla_ajustes1_1 = vida_plantilla_ajustes1_1.merge(vida_plantilla_ajustes1[['NMPOLIZA','NMRECIBO','CDAGENTE']].drop_duplicates(subset=['NMPOLIZA']), on='NMPOLIZA', how='left')
     vida_plantilla_ajustes1_1 = vida_plantilla_ajustes1_1[['NMPOLIZA','CDRAMO','NMRECIBO','CDAGENTE','FUENTE','PTCOMISION']]
 
     # Ajustes por código de agrupación
-    vida_plantilla_ajustes1_2 = vida_plantilla_ajustes1.loc[(vida_plantilla_ajustes1['AJUSTAR?'] == "Ajustado código agrupación")].groupby(['NMPOLIZA','CDRAMO','CDPROVISION','CDAGENTE','FUENTE'])['PTCOMISION'].sum().reset_index()
-    vida_plantilla_ajustes1_2['NMRECIBO'] = "99999999"
+    vida_plantilla_ajustes1_2 = vida_plantilla_ajustes1.loc[(vida_plantilla_ajustes1['AJUSTAR?'] == "Ajustado código agrupación")].groupby(['NMPOLIZA','CDRAMO','CDPROVISION','FUENTE'])['PTCOMISION'].sum().reset_index()
+    vida_plantilla_ajustes1_2 = vida_plantilla_ajustes1_2.merge(vida_plantilla_ajustes1[['NMPOLIZA','NMRECIBO','CDAGENTE','CDPROVISION']].drop_duplicates(subset=['NMPOLIZA','CDPROVISION']), on=['NMPOLIZA','CDPROVISION'], how='left')
     vida_plantilla_ajustes1_2 = vida_plantilla_ajustes1_2[['NMPOLIZA','CDRAMO','NMRECIBO','CDAGENTE','FUENTE','PTCOMISION']]
 
     # Ajustes de los demás tipos
@@ -48,6 +48,8 @@ def plantillas_ajustes(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierre):
 
     # Concatenar dataframes de ajustes (menos por póliza y pólizas en dólares)
     vida_plantilla_ajustes1_40 = pd.concat([vida_plantilla_ajustes1_1,vida_plantilla_ajustes1_2,vida_plantilla_ajustes1_3], axis=0)
+
+    vida_plantilla_ajustes1_40 = vida_plantilla_ajustes1_40.sort_values(by=['NMPOLIZA', 'NMRECIBO'], ascending=[True, True])
 
     # Parametros para clave de contabilización 40
     vida_plantilla_ajustes1_40['Agrupador'] = 1
@@ -171,6 +173,6 @@ def plantillas_ajustes(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierre):
         fraccion_df2 = vida_plantilla_ajustes1_final.iloc[inicio2:fin2]
         
         # Exporta la fracción a un archivo CSV
-        fraccion_df2.to_csv(f'02. Output/Ajustes/Ajustes_Financieros_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
+        fraccion_df2.to_excel(f'02. Output/Ajustes/Ajustes_Financieros_Vida_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.xlsx', index=False)
 
     print(f"Ajustes financieros sin pólizas en dólares exportados en la carpeta 02. Output/Ajustes.")

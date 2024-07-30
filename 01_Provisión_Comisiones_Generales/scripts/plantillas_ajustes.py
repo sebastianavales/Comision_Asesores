@@ -154,6 +154,6 @@ def plantillas_ajustes(generales_ajustes,ultimo_dia_del_mes,mes_cierre,año_cier
         fraccion_df2 = generales_plantilla_ajustes1_final.iloc[inicio2:fin2]
         
         # Exporta la fracción a un archivo CSV
-        fraccion_df2.to_csv(f'02. Output/Ajustes/Ajustes_Financieros_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
+        fraccion_df2.to_excel(f'02. Output/Ajustes/Ajustes_Financieros_Generales_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.xlsx', index=False)
 
     print(f"Ajustes financieros sin pólizas en dólares exportados en la carpeta 02. Output/Ajustes.")

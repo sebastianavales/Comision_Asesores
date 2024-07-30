@@ -54,9 +54,9 @@ def plantillas_ajustes_usd(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierr
         (vida_plantilla_ajustes2_40['PTCOMISION'] > 0) & (vida_plantilla_ajustes2_40['FUENTE'] == "CS"),
         (vida_plantilla_ajustes2_40['PTCOMISION'] < 0) & (vida_plantilla_ajustes2_40['FUENTE'] == "CS")],
         ["2481010040",
-        "5209101010",
+        "5222103000",
         "2481010000",
-        "5209101000"],
+        "5222103000"],
         default="Revisar"
     )
     vida_plantilla_ajustes2_40['Importe en la moneda del documento'] = abs(vida_plantilla_ajustes2_40['PTCOMISION'].round(0)).astype(int)
@@ -123,9 +123,9 @@ def plantillas_ajustes_usd(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierr
         (vida_plantilla_ajustes2_50['PTCOMISION'] < 0) & (vida_plantilla_ajustes2_50['FUENTE'] == "GW"),
         (vida_plantilla_ajustes2_50['PTCOMISION'] > 0) & (vida_plantilla_ajustes2_50['FUENTE'] == "CS"),
         (vida_plantilla_ajustes2_50['PTCOMISION'] < 0) & (vida_plantilla_ajustes2_50['FUENTE'] == "CS")],
-        ["5209101010",
+        ["5222103000",
         "2481010040",
-        "5209101000",
+        "5222103000",
         "2481010000"],
         default="Revisar"
     )
@@ -153,6 +153,6 @@ def plantillas_ajustes_usd(vida_ajustes,ultimo_dia_del_mes,mes_cierre,año_cierr
         fraccion_df3 = vida_plantilla_ajustes2_final.iloc[inicio3:fin3]
 
         # Exporta la fracción a un archivo CSV
-        fraccion_df3.to_csv(f'02. Output/Ajustes Dólares/Ajustes_Financieros_USD_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
+        fraccion_df3.to_excel(f'02. Output/Ajustes Dólares/Ajustes_Financieros_USD_Vida_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.xlsx', index=False)
 
     print(f"Ajustes financieros con pólizas en dólares exportados en la carpeta 02. Output/Ajustes Dólares.")
