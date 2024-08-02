@@ -141,6 +141,8 @@ try:
     # Función para consolidar tablas y exportar
     fconsexport.consolidar_exportar(generales,provision,pago,dolares,desde_porc_pendientes,hasta_porc_pendientes,codigos_directos,retirados,asesores_formacion,mes_cierre,año_cierre)
 
+    input("Presione Enter para salir...")
+    
 except Exception as e:
     print("Ocurrió un error. Revisar el archivo Errores.txt")
     input("Presione Enter para salir...")

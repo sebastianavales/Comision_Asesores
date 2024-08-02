@@ -101,9 +101,12 @@ def consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_
     vida['DIAS_RETIRO'] = (vida['FEBAJA'] - vida['FEREGISTRO']).dt.days
 
     vida['FEREGISTRO'] = vida['FEREGISTRO'].dt.strftime('%Y/%m/%d')
+    vida['FEBAJA'] = vida['FEBAJA'].dt.strftime('%Y/%m/%d')
 
     ## Cruce de tabla vida con base de datos de asesores en FyD
     vida = vida.merge(asesores_formacion, left_on='CDAGENTE', right_on='CDAGENTE', how='left')
+
+    vida['FECHA_INGRESO'] = vida['FECHA_INGRESO'].dt.strftime('%Y/%m/%d')
 
     ## Crear columna COMENTARIO si no existe
     if 'COMENTARIO' in vida.columns:
@@ -130,6 +133,6 @@ def consolidar_exportar(vida,provision,pago,dolares,desde_porc_pendientes,hasta_
         fraccion_df = vida.iloc[inicio:fin]
         
         # Exporta la fracción a un archivo CSV
-        fraccion_df.to_csv(f'02. Output/Comisiones_Vida_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
+        fraccion_df.to_excel(f'02. Output/Comisiones_Vida_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.xlsx', index=False)
 
     print("Archivo base exportado con transformaciones en la carpeta 02. Output.")

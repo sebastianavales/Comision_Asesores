@@ -101,9 +101,12 @@ def consolidar_exportar(generales,provision,pago,dolares,desde_porc_pendientes,h
     generales['DIAS_RETIRO'] = (generales['FEBAJA'] - generales['FEREGISTRO']).dt.days
 
     generales['FEREGISTRO'] = generales['FEREGISTRO'].dt.strftime('%Y/%m/%d')
+    generales['FEBAJA'] = generales['FEBAJA'].dt.strftime('%Y/%m/%d')
 
     ## Cruce de tabla generales con base de datos de asesores en FyD
     generales = generales.merge(asesores_formacion, left_on='CDAGENTE', right_on='CDAGENTE', how='left')
+
+    generales['FECHA_INGRESO'] = generales['FECHA_INGRESO'].dt.strftime('%Y/%m/%d')
     
     ## Crear columna COMENTARIO si no existe
     if 'COMENTARIO' in generales.columns:
@@ -130,6 +133,6 @@ def consolidar_exportar(generales,provision,pago,dolares,desde_porc_pendientes,h
         fraccion_df = generales.iloc[inicio:fin]
         
         # Exporta la fracción a un archivo CSV
-        fraccion_df.to_csv(f'02. Output/Comisiones_Generales_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.csv', index=False, sep=';', encoding="latin1")
+        fraccion_df.to_excel(f'02. Output/Comisiones_Generales_{str(mes_cierre).zfill(2)}{año_cierre}_{i + 1}.xlsx', index=False)
 
     print("Archivo base exportado con transformaciones en la carpeta 02. Output.")

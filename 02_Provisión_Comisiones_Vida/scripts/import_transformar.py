@@ -63,13 +63,13 @@ def importar_archivo_principal(mes_cierre,año_cierre,cabecera_anterior_completo
     
     print("Importación de archivos:")
 
-    archivo_mes_anterior = f'02. Output/Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1.csv'
+    archivo_mes_anterior = f'02. Output/Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1.xlsx'
 
     if os.path.exists(archivo_mes_anterior):
-        print(f"El archivo Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1 existe.")
+        print(f"El archivo Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1.xlsx existe.")
 
         # Mes anterior
-        all_files_vida_anterior = glob.glob(f'02. Output/Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_*.csv')
+        all_files_vida_anterior = glob.glob(f'02. Output/Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_*.xlsx')
         
         # Lista para almacenar los DataFrames de los archivos CSV anteriores
         dataframes_vida_anterior= []
@@ -77,7 +77,7 @@ def importar_archivo_principal(mes_cierre,año_cierre,cabecera_anterior_completo
         # Cargar cada archivo CSV en un DataFrame y agregarlo a la lista
         for file in all_files_vida_anterior:
             warnings.filterwarnings('ignore')
-            df = pd.read_table(file, sep=';', dtype=cabecera_anterior_completo, encoding='latin1')
+            df = pd.read_excel(file, dtype=cabecera_anterior_completo)
             # Crear un nuevo diccionario sin el elemento a omitir
             elemento_a_omitir = 'COMENTARIO'
             cabecera_anterior = {k: v for k, v in cabecera_anterior.items() if k != elemento_a_omitir}
@@ -111,7 +111,7 @@ def importar_archivo_principal(mes_cierre,año_cierre,cabecera_anterior_completo
         vida = pd.concat([vida_anterior, vida_actual], ignore_index=True)
 
     else:
-        print(f"El archivo Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1.csv no existe.")
+        print(f"El archivo Comisiones_Vida_{str(mes_cierre-1).zfill(2)}{año_cierre}_1.xlsx no existe.")
 
         # Mes actual
         all_files_vida_actual = glob.glob(f'01. Input/02. Vida/*.txt')
@@ -133,6 +133,8 @@ def importar_archivo_principal(mes_cierre,año_cierre,cabecera_anterior_completo
     vida = vida.loc[vida['PTCOMISION'].notnull()]
     vida = vida.loc[~(vida['PTCOMISION'].between(desde_eliminacion_cero, hasta_eliminacion_cero, inclusive='both'))]
     vida = vida.fillna("")
+
+    print(f"El saldo total es: {vida['PTCOMISION'].sum()}")
 
     return vida
 
